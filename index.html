@@ -2,23 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Semester Progress</title>
+  <title>Semester Progress Dashboard</title>
   <style>
     body {
       margin: 40px;
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
     }
-    #semester-progress-container {
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .bar-container {
+      margin: 20px 0;
+    }
+
+    .label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .progress-container {
       width: 100%;
       background: #eee;
       border-radius: 10px;
       overflow: hidden;
       height: 30px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    #semester-progress-bar {
+
+    .progress-bar {
       width: 0%;
-      background: #4caf50;
       height: 100%;
       text-align: center;
       color: white;
@@ -26,24 +44,62 @@
       font-weight: bold;
       transition: width 0.5s ease;
     }
+
+    /* Customize individual bar colors */
+    .green { background: #4caf50; }
+    .blue { background: #2196f3; }
+    .orange { background: #ff9800; }
+    .red { background: #f44336; }
+    .purple { background: #9c27b0; }
   </style>
 </head>
 <body>
-  <div id="semester-progress-container">
-    <div id="semester-progress-bar">0%</div>
+  <h1>Semester Progress</h1>
+
+  <!-- Bar 1 -->
+  <div class="bar-container">
+    <span class="label">Overall Semester</span>
+    <div class="progress-container">
+      <div class="progress-bar green" id="bar-semester">0%</div>
+    </div>
+  </div>
+
+  <!-- Bar 2 -->
+  <div class="bar-container">
+    <span class="label">Project A</span>
+    <div class="progress-container">
+      <div class="progress-bar blue" id="bar-projectA">0%</div>
+    </div>
+  </div>
+
+  <!-- Bar 3 -->
+  <div class="bar-container">
+    <span class="label">Project B</span>
+    <div class="progress-container">
+      <div class="progress-bar orange" id="bar-projectB">0%</div>
+    </div>
   </div>
 
   <script>
-    const startDate = new Date("2025-09-01");
-    const endDate = new Date("2026-06-01");
-    const today = new Date();
+    // Helper: update a bar by id
+    function updateProgressBar(barId, startDate, endDate) {
+      const today = new Date();
+      let progressPercent = ((today - startDate) / (endDate - startDate)) * 100;
+      progressPercent = Math.min(Math.max(progressPercent, 0), 100);
 
-    let progressPercent = ((today - startDate) / (endDate - startDate)) * 100;
-    progressPercent = Math.min(Math.max(progressPercent, 0), 100);
+      const bar = document.getElementById(barId);
+      bar.style.width = progressPercent + "%";
+      bar.textContent = Math.floor(progressPercent) + "%";
+    }
 
-    const progressBar = document.getElementById("semester-progress-bar");
-    progressBar.style.width = progressPercent + "%";
-    progressBar.textContent = Math.floor(progressPercent) + "%";
+    // Semester (Sept 1, 2025 – June 1, 2026)
+    updateProgressBar("bar-semester", new Date("2025-09-01"), new Date("2026-06-01"));
+
+    // Example: Project A (Oct 1, 2025 – Dec 15, 2025)
+    updateProgressBar("bar-projectA", new Date("2025-10-01"), new Date("2025-12-15"));
+
+    // Example: Project B (Jan 10, 2026 – Apr 30, 2026)
+    updateProgressBar("bar-projectB", new Date("2026-01-10"), new Date("2026-04-30"));
   </script>
 </body>
 </html>
